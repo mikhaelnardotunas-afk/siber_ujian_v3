@@ -174,7 +174,9 @@
     const keep = sel.value || (await DB.getSetting('dash_last_exam')) || '';
     sel.replaceChildren();
     if (!exams.length) {
-      sel.appendChild(el('option', { text: '(belum ada ujian)' }));
+      const o = el('option', { text: navigator.onLine ? '(belum ada ujian / gagal memuat — tekan Perbarui)' : '(offline)' });
+      o.value = '';
+      sel.appendChild(o);
       return false;
     }
     exams.forEach(function (e) {
@@ -192,7 +194,12 @@
 
   async function loadDashboard(quiet) {
     const examId = $('sel-exam').value;
-    if (!examId || loading) return;
+    if (loading) return;
+    if (!examId) {
+      // daftar ujian belum termuat: coba muat ulang daftarnya dulu
+      if (!quiet && await loadExamList() && $('sel-exam').value) return loadDashboard(quiet);
+      return;
+    }
     const cls = $('sel-class').value;
     loading = true;
     const btn = $('btn-refresh');

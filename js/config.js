@@ -12,8 +12,8 @@ const SIBER_CONFIG = {
   // Diambil dari js/api-url.js. Jangan diubah di sini.
   API_URL: (typeof SIBER_API_URL !== 'undefined' && SIBER_API_URL) ? SIBER_API_URL : '',
 
-  // Batas waktu tunggu respons server (milidetik). 30000 = 30 detik.
-  REQUEST_TIMEOUT_MS: 60000,
+  // Batas waktu tunggu respons server (milidetik). 45000 = 45 detik (dicoba ulang 1x untuk permintaan baca).
+  REQUEST_TIMEOUT_MS: 45000,
 
   // Login offline hanya diizinkan maksimal sekian hari sejak login online terakhir.
   OFFLINE_LOGIN_MAX_DAYS: 30,
@@ -41,5 +41,5 @@ const SIBER_CONFIG = {
   ALLOW_LOCAL_WIPE: false,
 
   // Versi aplikasi (naikkan setiap ada perubahan file)
-  CLIENT_VERSION: '3.1.0'
+  CLIENT_VERSION: '3.0.1'
 };

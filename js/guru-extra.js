@@ -116,7 +116,7 @@
     siswaLoading = true;
     UI.setBusy($('btn-siswa-refresh'), true, 'Memuat...');
     UI.showMsg('siswa-message', 'info', 'Memuat data siswa dan HP...');
-    const res = await Auth.authedCall('getDeviceOverview', { exam_id: dash().getExamId(), class: dash().getClass() });
+    const res = await Auth.authedCall('getDeviceOverview', { exam_id: dash().getExamId(), class: dash().getClass() }, 60000);
     UI.setBusy($('btn-siswa-refresh'), false);
     siswaLoading = false;
     if (!res.success) { UI.showMsg('siswa-message', 'error', 'Gagal memuat: ' + errText(res)); return; }
@@ -565,8 +565,8 @@
     if (!navigator.onLine) { UI.showMsg('token-message', 'warn', 'Tab token memerlukan internet.'); return; }
     tokenLoading = true;
     UI.setBusy($('btn-token-refresh'), true, 'Memuat...');
-    const onlyExam = $('token-only-exam').checked;
-    const res = await Auth.authedCall('listTokens', { exam_id: onlyExam ? dash().getExamId() : '' });
+    const onlyExam = $('token-only-exam').checked && !!dash().getExamId();
+    const res = await Auth.authedCall('listTokens', { exam_id: onlyExam ? dash().getExamId() : '' }, 60000);
     UI.setBusy($('btn-token-refresh'), false);
     tokenLoading = false;
     if (!res.success) { UI.showMsg('token-message', 'error', 'Gagal memuat token: ' + errText(res)); return; }

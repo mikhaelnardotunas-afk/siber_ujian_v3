@@ -40,7 +40,22 @@ const Api = (function () {
    * @param {object} payload data yang dikirim
    * @param {string} session session token (boleh kosong)
    */
+  // Action yang hanya MEMBACA data: aman dicoba ulang otomatis bila gangguan sesaat.
+  const RETRY_ACTIONS = ['ping', 'getAppConfig', 'getExamList', 'syncExam', 'getQuestionImage', 'heartbeat',
+    'getDashboard', 'getLiveStatus', 'listMessages', 'getAttemptDetail', 'getAttemptDetailV2', 'getAnswerMatrix',
+    'getResults', 'getDeviceOverview', 'getReportData', 'getAnswerSheets', 'listTokens'];
+  const RETRY_CODES = ['TIMEOUT', 'NETWORK_ERROR', 'BAD_RESPONSE'];
+
   async function call(action, payload, session, timeoutMs) {
+    let res = await callOnce(action, payload, session, timeoutMs);
+    if (!res.success && RETRY_ACTIONS.indexOf(action) !== -1 && RETRY_CODES.indexOf(res.error.code) !== -1 && navigator.onLine) {
+      await new Promise(function (r) { setTimeout(r, 2000); });
+      res = await callOnce(action, payload, session, timeoutMs);
+    }
+    return res;
+  }
+
+  async function callOnce(action, payload, session, timeoutMs) {
     if (!isConfigured()) {
       return fail('API_NOT_CONFIGURED', 'URL API belum diisi dengan benar di js/api-url.js');
     }
@@ -71,8 +86,11 @@ const Api = (function () {
       try {
         result = JSON.parse(text);
       } catch (e) {
+        const title = (text.match(/<title>([^<]{0,120})<\/title>/i) || [])[1] || '';
         result = fail('BAD_RESPONSE',
-          'Server tidak mengirim JSON. Periksa: akses Web App = "Siapa saja" dan URL berakhiran /exec.');
+          'Server tidak mengirim JSON (HTTP ' + res.status + (title ? ', "' + title.trim() + '"' : '') + '). ' +
+          (res.status === 404 ? 'Gangguan sesaat dari Google; coba lagi. Jika terus terjadi, periksa deployment Web App. '
+            : 'Periksa: akses Web App = "Siapa saja" dan URL berakhiran /exec.'));
       }
       if (!result || typeof result.success !== 'boolean') {
         result = fail('BAD_RESPONSE', 'Format respons server tidak dikenal.');
