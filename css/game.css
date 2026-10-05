@@ -1,0 +1,368 @@
+/* =====================================================================
+   SIBER-UJIAN — game.css (v3)
+   Tema game 2D cerah: langit, matahari, awan bergerak, bukit, papan kayu,
+   tombol 3D, kotak soal berwarna. Dimuat PALING AKHIR sehingga menimpa
+   tema lama. Font disimpan di assets/fonts (tetap tampil saat offline).
+   ===================================================================== */
+
+@font-face { font-family: 'Lilita One'; src: url('../assets/fonts/lilita-one.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Nunito'; src: url('../assets/fonts/nunito-600.woff2') format('woff2'); font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Nunito'; src: url('../assets/fonts/nunito-800.woff2') format('woff2'); font-weight: 700 800; font-display: swap; }
+@font-face { font-family: 'Nunito'; src: url('../assets/fonts/nunito-900.woff2') format('woff2'); font-weight: 900; font-display: swap; }
+
+body.theme-game {
+  --g-sky-top: #36b0ec;
+  --g-sky-bot: #b6e9ff;
+  --g-wood: #c27a3a;
+  --g-wood-l: #e8a965;
+  --g-wood-d: #6f3d16;
+  --g-paper: #fff5d8;
+  --g-paper-d: #f1dfae;
+  --g-ink: #3a2310;
+  --g-muted: #8a6a45;
+  --g-red: #e4432d;
+  --g-red-d: #9e2414;
+  --g-green: #6acb3a;
+  --g-green-d: #3a861b;
+  --g-blue: #2e8fd8;
+  --g-blue-d: #19598f;
+  --g-gold: #ffcb2b;
+  --g-gold-d: #c78b00;
+  --g-purple: #8b5cf6;
+  --g-purple-d: #5b34c4;
+  --g-orange: #ff8a1f;
+  --g-orange-d: #b85a00;
+  --g-game: 'Lilita One', 'Arial Rounded MT Bold', 'Trebuchet MS', system-ui, sans-serif;
+  --g-body: 'Nunito', 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+  /* variabel tema lama diarahkan ke warna baru */
+  --ink: var(--g-ink);
+  --ink-soft: #5a3a1c;
+  --muted: var(--g-muted);
+  --sun: var(--g-gold);
+  --sun-dark: var(--g-gold-d);
+  --tomato: var(--g-red);
+  --tomato-dark: var(--g-red-d);
+  --leaf: var(--g-green);
+  --leaf-dark: var(--g-green-d);
+  --ocean: var(--g-blue);
+  --ocean-dark: var(--g-blue-d);
+  --grape: var(--g-purple);
+  --grape-dark: var(--g-purple-d);
+  --font-display: var(--g-game);
+  --font-body: var(--g-body);
+
+  font-family: var(--g-body);
+  font-weight: 600;
+  color: var(--g-ink);
+  background: linear-gradient(180deg, var(--g-sky-top) 0%, var(--g-sky-bot) 72%) fixed;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+body.theme-game::before,
+body.theme-game::after { display: none; content: none; }
+
+/* ---------- Pemandangan ---------- */
+.scene { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.scene .sun {
+  position: absolute; top: 5vh; right: 7vw; width: 86px; height: 86px; border-radius: 50%;
+  background: radial-gradient(circle, #fff8c4 0 45%, #ffe066 46% 100%);
+  box-shadow: 0 0 0 16px rgba(255, 240, 150, .35), 0 0 0 36px rgba(255, 240, 150, .15);
+  animation: sunPulse 6s ease-in-out infinite;
+}
+@keyframes sunPulse { 50% { transform: scale(1.06); } }
+.scene .cloud { position: absolute; background: #fff; border-radius: 100px; opacity: .92; animation: drift linear infinite; }
+.scene .cloud::before, .scene .cloud::after { content: ''; position: absolute; background: #fff; border-radius: 50%; }
+.scene .c1 { width: 130px; height: 40px; top: 12vh; left: -150px; animation-duration: 70s; }
+.scene .c1::before { width: 60px; height: 60px; top: -30px; left: 18px; }
+.scene .c1::after { width: 46px; height: 46px; top: -20px; left: 64px; }
+.scene .c2 { width: 90px; height: 30px; top: 27vh; left: -110px; animation-duration: 95s; animation-delay: -40s; }
+.scene .c2::before { width: 44px; height: 44px; top: -22px; left: 12px; }
+.scene .c2::after { width: 34px; height: 34px; top: -14px; left: 46px; }
+.scene .c3 { width: 160px; height: 46px; top: 4vh; left: -180px; animation-duration: 120s; animation-delay: -80s; }
+.scene .c3::before { width: 70px; height: 70px; top: -36px; left: 24px; }
+.scene .c3::after { width: 54px; height: 54px; top: -24px; left: 80px; }
+@keyframes drift { to { transform: translateX(calc(100vw + 400px)); } }
+.scene .hills { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 30vh; min-height: 160px; }
+
+.theme-game .topbar, .theme-game .container, .theme-game .footer { position: relative; z-index: 1; }
+
+/* ---------- Bilah atas ---------- */
+.theme-game .topbar { max-width: 760px; margin: 0 auto; padding: 12px 14px 4px; display: flex; align-items: center; gap: 10px; }
+.theme-game .topbar-mascot { width: 50px; height: 50px; filter: drop-shadow(0 3px 0 rgba(0, 0, 0, .2)); animation: bob 3s ease-in-out infinite; }
+@keyframes bob { 50% { transform: translateY(-4px) rotate(-3deg); } }
+.theme-game .app-title {
+  font-family: var(--g-game); font-weight: 400; font-size: 1.45rem; letter-spacing: .5px; color: #fff; line-height: 1.05;
+  text-shadow: 0 3px 0 var(--g-blue-d), 0 0 2px var(--g-blue-d);
+}
+.theme-game .school-name { font-size: .82rem; font-weight: 800; color: #fff; opacity: 1; text-shadow: 0 1px 0 var(--g-blue-d); }
+.theme-game .net-status {
+  border: 0; border-radius: 99px; padding: 6px 12px; font-size: .78rem; font-weight: 900;
+  background: rgba(255, 255, 255, .9); box-shadow: 0 3px 0 rgba(0, 0, 0, .15); color: var(--g-red-d);
+}
+.theme-game .net-status.is-online { color: var(--g-green-d); }
+.theme-game .net-status::before {
+  content: ''; display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; vertical-align: 0;
+  background: var(--g-red);
+}
+.theme-game .net-status.is-online::before { background: var(--g-green); box-shadow: 0 0 0 3px rgba(106, 203, 58, .3); }
+.sound-btn {
+  flex: 0 0 auto; width: 44px; height: 44px; border-radius: 50%; border: 3px solid var(--g-wood-d);
+  background: linear-gradient(180deg, var(--g-wood-l), var(--g-wood)); color: #fff; font-size: 20px; line-height: 1;
+  box-shadow: 0 4px 0 var(--g-wood-d); cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+}
+.sound-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--g-wood-d); }
+.sound-btn.is-muted { filter: grayscale(.8); }
+
+/* ---------- Tata letak & papan kayu ---------- */
+.theme-game .container { max-width: 760px; margin: 0 auto; padding: 10px 14px 150px; }
+.theme-game .card {
+  position: relative; background: var(--g-paper); color: var(--g-ink);
+  border: 6px solid var(--g-wood); border-radius: 22px;
+  box-shadow: 0 7px 0 var(--g-wood-d), inset 0 0 0 3px var(--g-wood-l), inset 0 -6px 0 var(--g-paper-d);
+  padding: 22px 18px 20px; margin-bottom: 20px;
+}
+.theme-game .card::before, .theme-game .card::after {
+  content: ''; position: absolute; top: 8px; width: 9px; height: 9px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #d9d2c3, #8a7b62);
+}
+.theme-game .card::before { left: 8px; }
+.theme-game .card::after { right: 8px; }
+.theme-game .screen:not([hidden]) { animation: screenIn .35s ease-out; }
+@keyframes screenIn { from { opacity: 0; transform: translateY(10px) scale(.98); } }
+
+.theme-game h2, .theme-game h3, .theme-game .card h2, .theme-game .card h3 {
+  font-family: var(--g-game); font-weight: 400; color: var(--g-wood-d); letter-spacing: .3px; line-height: 1.15;
+}
+.theme-game .card h2 { font-size: 1.6rem; }
+.theme-game .card h3 { font-size: 1.3rem; }
+.theme-game h4 { font-family: var(--g-game); font-weight: 400; color: var(--g-wood-d); font-size: 1.1rem; }
+.theme-game .small { color: var(--g-muted); font-weight: 700; }
+.theme-game a { color: var(--g-blue-d); font-weight: 800; }
+.theme-game code { background: var(--g-paper-d); border-radius: 6px; padding: 1px 5px; }
+
+/* ---------- Tombol 3D ---------- */
+.theme-game .btn {
+  --c: var(--g-wood); --cd: var(--g-wood-d);
+  font-family: var(--g-game); font-weight: 400; font-size: 1.1rem; letter-spacing: .3px;
+  color: #fff; text-shadow: 0 2px 0 rgba(0, 0, 0, .3);
+  background: linear-gradient(180deg, rgba(255, 255, 255, .28) 0 14%, rgba(255, 255, 255, 0) 15% 100%), var(--c);
+  border: 3px solid var(--cd); border-radius: 16px; padding: 10px 18px; min-height: 52px;
+  box-shadow: 0 6px 0 var(--cd), 0 8px 10px rgba(0, 0, 0, .15);
+  cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent;
+  transition: transform .08s, box-shadow .08s, filter .15s;
+}
+.theme-game .btn:hover:not(:disabled) { filter: brightness(1.06); }
+.theme-game .btn:active:not(:disabled) { transform: translateY(5px); box-shadow: 0 1px 0 var(--cd); }
+.theme-game .btn:disabled { filter: grayscale(.75) brightness(.95); opacity: .8; cursor: not-allowed; }
+.theme-game .btn-primary { --c: var(--g-green); --cd: var(--g-green-d); }
+.theme-game .btn-secondary { --c: var(--g-blue); --cd: var(--g-blue-d); }
+.theme-game .btn-danger { --c: var(--g-red); --cd: var(--g-red-d); }
+.theme-game .btn-light { --c: var(--g-wood-l); --cd: var(--g-wood-d); color: var(--g-ink); text-shadow: 0 1px 0 rgba(255, 255, 255, .45); }
+.theme-game .btn-gold { --c: var(--g-gold); --cd: var(--g-gold-d); color: var(--g-ink); text-shadow: 0 1px 0 rgba(255, 255, 255, .5); }
+.theme-game .btn-small { min-height: 40px; font-size: .95rem; padding: 6px 12px; border-radius: 12px; box-shadow: 0 4px 0 var(--cd); }
+.theme-game .btn-big { min-height: 60px; font-size: 1.35rem; }
+.theme-game .btn-block { margin-top: 14px; }
+
+/* ---------- Isian ---------- */
+.theme-game input[type="text"], .theme-game input[type="password"], .theme-game input:not([type]) {
+  font-family: var(--g-body); font-weight: 800; color: var(--g-ink);
+  background: #fffdf3; border: 3px solid var(--g-wood); border-radius: 14px; box-shadow: inset 0 3px 0 rgba(0, 0, 0, .06);
+}
+.theme-game #login-form label, .theme-game .token-box label { font-weight: 900; color: var(--g-wood-d); }
+.theme-game #login-form input:focus, .theme-game .token-box input:focus { border-color: var(--g-gold-d); outline: 4px solid rgba(255, 203, 43, .45); }
+.theme-game .token-box {
+  background: #fff8db; border: 3px dashed var(--g-gold-d); border-radius: 16px; padding: 14px; margin: 14px 0;
+}
+.theme-game .token-box input {
+  font-family: var(--g-game); font-size: 1.6rem; letter-spacing: 4px; text-align: center; text-transform: uppercase;
+}
+
+/* ---------- Pesan & label ---------- */
+.theme-game .msg { border-radius: 14px; border: 3px solid transparent; font-weight: 800; padding: 10px 14px; }
+.theme-game .msg-error { background: #ffe1dc; border-color: #f3a597; color: var(--g-red-d); }
+.theme-game .msg-ok { background: #e3f8d6; border-color: #a6dc84; color: var(--g-green-d); }
+.theme-game .msg-info { background: #e2f2ff; border-color: #9ccff3; color: var(--g-blue-d); }
+.theme-game .msg-warn { background: #fff4c7; border-color: #f1cf5d; color: #7a5300; }
+.theme-game .badge { border: 2px solid rgba(0, 0, 0, .12); font-weight: 900; border-radius: 99px; }
+.theme-game .info-table th { color: var(--g-muted); font-weight: 800; }
+.theme-game .info-table td { font-weight: 800; }
+.theme-game .info-table tr + tr th, .theme-game .info-table tr + tr td { border-top: 2px dashed var(--g-paper-d); }
+.theme-game .mode-badge { font-weight: 900; border-radius: 99px; }
+.theme-game .pwa-bar {
+  background: var(--g-paper); border: 4px solid var(--g-wood); border-radius: 16px; box-shadow: 0 5px 0 var(--g-wood-d);
+}
+.theme-game .footer { color: #fff; font-weight: 900; text-shadow: 0 2px 0 rgba(0, 0, 0, .25); }
+
+/* ---------- Login & beranda ---------- */
+.theme-game .login-hero img { width: 128px; height: 128px; animation: hop 2.6s ease-in-out infinite; }
+.theme-game .login-hero h2 { font-size: 2rem; margin: 4px 0; }
+.theme-game .home-hello img { width: 68px; height: 68px; animation: bob 3s ease-in-out infinite; }
+.theme-game .home-hello h2 { font-size: 1.5rem; }
+.theme-game .section-title h3 { margin: 0; }
+.theme-game .section-icon { border: 3px solid var(--g-wood-d); box-shadow: 0 3px 0 var(--g-wood-d); border-radius: 12px; }
+.theme-game .icon-sun { background: var(--g-gold); }
+.theme-game .icon-leaf { background: #9be27a; }
+.theme-game .icon-sky { background: #9fd8ff; }
+.theme-game .icon-grape { background: #c9bbff; }
+
+.theme-game .exam-card {
+  background: #fffdf4; border: 4px solid var(--g-wood-l); border-radius: 18px;
+  box-shadow: 0 5px 0 var(--g-paper-d); padding: 14px 14px 16px 22px; margin-top: 14px;
+  transition: transform .15s;
+}
+.theme-game .exam-card:hover { transform: translateY(-2px); }
+.theme-game .exam-card::before { width: 10px; border-radius: 0; }
+.theme-game .exam-card.mode-total::before { background: var(--g-blue); }
+.theme-game .exam-card.mode-per_soal::before { background: var(--g-red); }
+.theme-game .exam-card.mode-fixed::before { background: var(--g-purple); }
+.theme-game .exam-card.result-card::before { background: var(--g-green); }
+.theme-game .exam-card h4 { font-family: var(--g-game); font-weight: 400; font-size: 1.2rem; color: var(--g-wood-d); }
+.theme-game .subject-chip {
+  font-family: var(--g-game); font-weight: 400; font-size: .85rem; color: #fff; text-shadow: 0 1px 0 var(--g-wood-d);
+  background: linear-gradient(180deg, var(--g-wood-l), var(--g-wood)); border: 2px solid var(--g-wood-d);
+  border-radius: 8px; padding: 2px 10px; transform: rotate(-2deg);
+}
+.theme-game .exam-meta { color: var(--g-muted); font-weight: 700; }
+.theme-game .danger-zone { border-color: var(--g-red); box-shadow: 0 7px 0 var(--g-red-d); }
+
+/* ---------- Ujian: HUD ---------- */
+.theme-game .exam-header {
+  background: linear-gradient(180deg, #4a2b12, #3a2310); color: #fff;
+  border-color: var(--g-wood-d); box-shadow: 0 7px 0 #241406, inset 0 0 0 3px #7a4a22;
+}
+.theme-game .exam-header::before, .theme-game .exam-header::after { background: radial-gradient(circle at 35% 35%, #e8d9b8, #9a8458); }
+.theme-game .exam-title { font-family: var(--g-game); font-weight: 400; font-size: 1.25rem; color: var(--g-gold); text-shadow: 0 2px 0 #000; }
+.theme-game .exam-header .small { color: #f6e3c0; }
+.theme-game .timer-box {
+  background: radial-gradient(circle at 30% 25%, #fff3b0, var(--g-gold) 60%); color: var(--g-ink);
+  border: 4px solid var(--g-gold-d); border-radius: 18px; box-shadow: 0 5px 0 #8a5f00; padding: 6px 14px; text-align: center;
+}
+.theme-game .timer-box .small { color: #6b4a00; font-weight: 900; }
+.theme-game .timer { font-family: var(--g-game); font-weight: 400; font-size: 2rem; color: var(--g-ink); letter-spacing: 1px; }
+.theme-game .timer-box.timer-warn {
+  background: radial-gradient(circle at 30% 25%, #ffb3a6, var(--g-red) 60%); border-color: var(--g-red-d);
+  box-shadow: 0 5px 0 #6b150a; animation: shake .6s ease-in-out infinite;
+}
+.theme-game .timer-box.timer-warn .small, .theme-game .timer-box .timer.timer-warn { color: #fff; }
+@keyframes shake { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-2deg); } 75% { transform: rotate(2deg); } }
+.theme-game .violation-badge { background: rgba(255, 255, 255, .15); color: #e9ffd9; border-radius: 99px; padding: 3px 10px; font-weight: 900; }
+.theme-game .violation-badge.has-violation { background: var(--g-red); color: #fff; animation: shake .5s 2; }
+.theme-game .qtimer { border-radius: 99px; font-weight: 900; }
+.theme-game .qtimer-wait { background: var(--g-gold); color: var(--g-ink); }
+.theme-game .qtimer-free { background: var(--g-green); color: #fff; }
+.theme-game .progress-track {
+  height: 18px; border-radius: 99px; background: #241406; border: 3px solid #7a4a22; overflow: hidden; margin-top: 12px;
+}
+.theme-game .progress-fill {
+  height: 100%; border-radius: 99px; transition: width .4s ease;
+  background: repeating-linear-gradient(45deg, var(--g-gold) 0 12px, #ffe27a 12px 24px);
+  box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .15);
+}
+.theme-game .progress-text { color: #fff; font-weight: 900; text-align: right; margin-top: 4px; }
+
+/* ---------- Ujian: soal & pilihan ---------- */
+.theme-game .question-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.theme-game .question-num {
+  min-width: 52px; height: 52px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--g-game); font-weight: 400; font-size: 1.5rem; color: #fff; text-shadow: 0 2px 0 var(--g-blue-d);
+  background: radial-gradient(circle at 30% 25%, #7cc8ff, var(--g-blue) 65%); border: 4px solid var(--g-blue-d);
+  box-shadow: 0 4px 0 var(--g-blue-d);
+}
+.theme-game .question-label { color: var(--g-muted); font-weight: 900; }
+.theme-game .question-text { font-size: 1.18rem; font-weight: 800; line-height: 1.6; color: var(--g-ink); }
+.theme-game .question-image { border: 4px solid var(--g-wood-l); border-radius: 14px; background: #fff; }
+.theme-game .options { display: grid; gap: 12px; margin-top: 14px; }
+.theme-game .option-btn {
+  border: 4px solid var(--g-wood-l); border-radius: 18px; background: #fffdf4; color: var(--g-ink);
+  box-shadow: 0 5px 0 var(--g-paper-d); font-family: var(--g-body); font-weight: 800; font-size: 1.08rem;
+  min-height: 64px; padding: 10px 12px;
+}
+.theme-game .option-btn:hover:not(:disabled) { border-color: var(--g-gold); }
+.theme-game .option-btn:active:not(:disabled) { transform: translateY(4px); box-shadow: 0 1px 0 var(--g-paper-d); }
+.theme-game .option-letter {
+  flex: 0 0 46px; height: 46px; border: 3px solid rgba(0, 0, 0, .25); font-family: var(--g-game); font-weight: 400;
+  font-size: 1.35rem; text-shadow: 0 2px 0 rgba(0, 0, 0, .25); box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .18);
+}
+.theme-game .option-a .option-letter { background: var(--g-red); }
+.theme-game .option-b .option-letter { background: var(--g-blue); }
+.theme-game .option-c .option-letter { background: var(--g-green); }
+.theme-game .option-d .option-letter { background: var(--g-orange); }
+.theme-game .option-e .option-letter { background: var(--g-purple); }
+.theme-game .option-btn.selected {
+  background: #eaffd9; border-color: var(--g-green); box-shadow: 0 5px 0 var(--g-green-d), 0 0 0 4px rgba(106, 203, 58, .25);
+  transform: none; animation: chosen .35s ease-out;
+}
+.theme-game .option-btn.selected .option-check { background: var(--g-green); color: #fff; border: 3px solid var(--g-green-d); }
+@keyframes chosen { 40% { transform: scale(1.03); } }
+.theme-game .save-status { border-radius: 12px; font-weight: 800; }
+.theme-game .question-tools { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+.theme-game .question-tools .btn { margin: 0; }
+.theme-game .btn-flag { --c: #fff3c4; --cd: var(--g-gold-d); color: var(--g-ink); text-shadow: none; }
+.theme-game .btn-flag.is-on { --c: var(--g-gold); --cd: var(--g-gold-d); animation: chosen .35s ease-out; }
+
+/* ---------- Ujian: nomor soal ---------- */
+.theme-game .grid { grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 9px; }
+.theme-game .grid-btn {
+  min-height: 50px; border: 3px solid var(--g-wood-l); border-radius: 14px; background: #fffdf4; color: var(--g-wood-d);
+  font-family: var(--g-game); font-weight: 400; font-size: 1.1rem; box-shadow: 0 4px 0 var(--g-paper-d); position: relative;
+}
+.theme-game .grid-btn:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px 0 var(--g-paper-d); }
+.theme-game .grid-btn.answered { background: var(--g-green); border-color: var(--g-green-d); color: #fff; box-shadow: 0 4px 0 var(--g-green-d); text-shadow: 0 1px 0 rgba(0, 0, 0, .3); }
+.theme-game .grid-btn.doubt { background: var(--g-gold); border-color: var(--g-gold-d); color: var(--g-ink); box-shadow: 0 4px 0 var(--g-gold-d); text-shadow: none; }
+.theme-game .grid-btn.doubt::after {
+  content: '?'; position: absolute; top: -8px; right: -6px; width: 18px; height: 18px; border-radius: 50%;
+  background: var(--g-red); color: #fff; font-size: 12px; line-height: 18px; border: 2px solid #fff;
+}
+.theme-game .grid-btn.locked { background: #e2dccd; border-color: #b7ab92; color: #8a7d62; box-shadow: none; }
+.theme-game .grid-btn.next-open { background: #efe8ff; border: 3px dashed var(--g-purple); color: var(--g-purple-d); }
+.theme-game .grid-btn.current { outline: 4px solid var(--g-blue); outline-offset: 2px; transform: scale(1.06); }
+.theme-game .wait-hint { font-weight: 800; color: #7a5300; background: #fff4c7; border-radius: 12px; padding: 8px 12px; }
+
+/* ---------- Selesai ---------- */
+.theme-game .done-hero { text-align: center; }
+.theme-game .done-hero img { width: 140px; height: 140px; animation: hop 1.6s ease-in-out infinite; }
+.theme-game .done-hero h2 { font-size: 2.1rem; color: var(--g-green-d); }
+.theme-game .done-hero .stars { font-size: 2.2rem; letter-spacing: 6px; animation: starPop .8s ease-out both; }
+@keyframes starPop { from { transform: scale(0); opacity: 0; } 70% { transform: scale(1.2); } }
+@keyframes hop { 0%, 70%, 100% { transform: translateY(0); } 80% { transform: translateY(-14px); } 90% { transform: translateY(0); } }
+
+.confetti { position: fixed; inset: 0; pointer-events: none; z-index: 80; overflow: hidden; }
+.confetti i { position: absolute; top: -20px; width: 10px; height: 16px; border-radius: 3px; animation: fall linear forwards; }
+@keyframes fall { to { transform: translateY(110vh) rotate(720deg); } }
+
+/* ---------- Pesan guru ---------- */
+.theme-game .msg-modal { background: rgba(30, 18, 6, .55); }
+.theme-game .msg-modal-card {
+  background: var(--g-paper); border: 6px solid var(--g-wood); border-radius: 22px;
+  box-shadow: 0 8px 0 var(--g-wood-d), inset 0 0 0 3px var(--g-wood-l);
+}
+.theme-game .msg-modal-from { font-family: var(--g-game); font-weight: 400; color: var(--g-wood-d); }
+.theme-game .msg-modal-text { background: #fff8db; border: 3px dashed var(--g-gold-d); color: var(--g-ink); }
+
+/* ---------- Toast ---------- */
+.toast-box { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); z-index: 90; display: grid; gap: 8px; width: min(92vw, 420px); }
+.toast {
+  background: var(--g-paper, #fff5d8); color: var(--g-ink, #3a2310); border: 4px solid var(--g-wood, #c27a3a);
+  border-radius: 16px; padding: 10px 14px; font-weight: 800; box-shadow: 0 5px 0 var(--g-wood-d, #6f3d16);
+  animation: toastIn .25s ease-out;
+}
+@keyframes toastIn { from { transform: translateY(20px); opacity: 0; } }
+
+@media (max-width: 480px) {
+  .theme-game .app-title { font-size: 1.2rem; }
+  .theme-game .topbar-mascot { width: 42px; height: 42px; }
+  .theme-game .card { padding: 20px 14px 18px; border-width: 5px; }
+  .theme-game .timer { font-size: 1.6rem; }
+  .theme-game .question-text { font-size: 1.08rem; }
+  .scene .sun { width: 64px; height: 64px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scene .cloud, .scene .sun, .theme-game .topbar-mascot, .theme-game .login-hero img, .theme-game .home-hello img,
+  .theme-game .done-hero img, .theme-game .timer-box.timer-warn, .confetti { animation: none !important; }
+  .confetti { display: none; }
+}
+@media print { .scene, .sound-btn { display: none; } }
+
+/* Isian login mengikuti tema (menimpa selector #login-form lama) */
+.theme-game #login-form input { background: #fffdf3; border: 3px solid var(--g-wood); border-radius: 14px; color: var(--g-ink); }

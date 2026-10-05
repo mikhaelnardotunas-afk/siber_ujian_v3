@@ -1,0 +1,259 @@
+/* =====================================================================
+   SIBER-UJIAN — exam.css (layar ujian siswa)
+   ===================================================================== */
+
+/* ---------- Kepala ujian (menempel di atas) ---------- */
+
+.exam-header { position: sticky; top: 8px; z-index: 10; padding: 14px 16px !important; }
+.exam-header-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.exam-title { font-family: var(--font-display); font-weight: 900; font-size: 17px; line-height: 1.2; }
+.exam-sub { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 6px; }
+
+.timer-box {
+  flex: 0 0 auto;
+  text-align: center;
+  background: var(--sun);
+  border: 3px solid var(--ink);
+  border-radius: 18px;
+  padding: 4px 12px 6px;
+  box-shadow: 0 4px 0 var(--ink);
+  min-width: 112px;
+}
+.timer-box .small { color: var(--ink); font-weight: 800; font-size: 12px; }
+.timer {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  white-space: nowrap;
+  line-height: 1.1;
+}
+.timer-box.timer-warn { background: var(--tomato); animation: pulse 1s ease-in-out infinite; }
+.timer-box.timer-warn .timer,
+.timer-box.timer-warn .small { color: #FFFFFF; }
+.timer.timer-warn { color: var(--tomato-dark); }
+.timer-box .timer.timer-warn { color: #FFFFFF; }
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+.qtimer {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 900;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 2px solid var(--ink);
+}
+.qtimer-wait { background: #FFE4E1; color: var(--tomato-dark); }
+.qtimer-free { background: #CFF5DB; color: #145C2C; }
+
+.violation-badge {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 900;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 2px solid var(--ink);
+  background: #CFF5DB;
+  color: #145C2C;
+}
+.violation-badge.has-violation { background: var(--tomato); color: #FFFFFF; }
+
+.progress-track {
+  margin-top: 10px;
+  height: 14px;
+  background: var(--mist);
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  width: 0;
+  background: repeating-linear-gradient(45deg, var(--leaf) 0 12px, #4CD675 12px 24px);
+  transition: width 0.3s ease;
+}
+.progress-text { font-size: 12px; font-weight: 800; color: var(--muted); margin-top: 4px; }
+
+/* ---------- Soal ---------- */
+
+.question-card { padding-top: 22px !important; }
+.question-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.question-num {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--grape);
+  color: #FFFFFF;
+  border: 3px solid var(--ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 22px;
+  box-shadow: 0 3px 0 var(--ink);
+}
+.question-label { font-weight: 800; color: var(--muted); }
+
+.mode-info { margin-top: 0; margin-bottom: 14px; }
+
+.question-text {
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  margin-bottom: 14px;
+}
+.question-image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 8px 0 14px;
+  border-radius: var(--radius-md);
+  border: 3px solid var(--ink);
+}
+
+/* ---------- Pilihan jawaban ---------- */
+
+.options { display: flex; flex-direction: column; gap: 12px; }
+.option-btn {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  min-height: 60px;
+  border: 3px solid var(--ink);
+  border-radius: 18px;
+  background: #FFFFFF;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 0 var(--ink);
+  transition: transform 0.06s ease, box-shadow 0.06s ease, background 0.15s ease;
+}
+.option-btn:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px 0 var(--ink); }
+.option-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+.option-letter {
+  flex: 0 0 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 3px solid var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 19px;
+  color: #FFFFFF;
+}
+.option-a .option-letter { background: var(--tomato); }
+.option-b .option-letter { background: var(--ocean); }
+.option-c .option-letter { background: var(--leaf); }
+.option-d .option-letter { background: #FF8A1F; }
+.option-text { flex: 1 1 auto; }
+.option-check {
+  flex: 0 0 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 18px;
+}
+.option-btn.selected { background: #FFF6CC; transform: translateY(2px); box-shadow: 0 2px 0 var(--ink); }
+.option-btn.selected .option-check { background: var(--leaf); color: #FFFFFF; border: 2px solid var(--ink); }
+.option-btn.pending { border-style: dashed; }
+
+.save-status {
+  margin: 14px 0 10px;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+}
+.save-ok { background: #DDF8E5; color: #145C2C; }
+.save-pending { background: #FFF3CC; color: #7A5300; }
+.save-error { background: #FFE4E1; color: #9B1C14; font-weight: 900; }
+.save-none { background: var(--mist); color: var(--muted); }
+
+/* ---------- Navigasi & nomor soal ---------- */
+
+.wait-hint {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  background: #F1ECFF;
+  color: var(--grape-dark);
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.grid-title { margin: 18px 0 10px; font-family: var(--font-display); font-weight: 900; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(48px, 1fr)); gap: 8px; }
+.grid-btn {
+  min-height: 48px;
+  border: 3px solid var(--ink);
+  border-radius: 14px;
+  background: #FFFFFF;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 3px 0 var(--ink);
+}
+.grid-btn:disabled { cursor: default; box-shadow: none; }
+.grid-btn.locked { background: #E4E9F2; color: #7A859E; border-color: #9AA5BF; }
+.grid-btn.answered { background: var(--leaf); color: #FFFFFF; }
+.grid-btn.next-open { background: #F1ECFF; color: var(--grape-dark); border-style: dashed; }
+.grid-btn.current { outline: 4px solid var(--sun); outline-offset: 2px; }
+
+/* ---------- Layar pembuka ---------- */
+
+.rules { padding-left: 22px; font-size: 15px; font-weight: 600; }
+.rules li { margin-bottom: 6px; }
+.rules li::marker { color: var(--tomato); font-weight: 900; }
+
+.token-box { margin: 16px 0 8px; }
+.token-box label { display: block; font-weight: 900; font-size: 16px; margin-bottom: 6px; }
+.token-box input {
+  width: 100%;
+  min-height: 58px;
+  padding: 10px 12px;
+  border: 3px solid var(--ink);
+  border-radius: var(--radius-md);
+  font-size: 26px;
+  font-weight: 900;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  text-align: center;
+  background: #FFFBEA;
+}
+.token-box input:focus { outline: none; border-color: var(--ocean); box-shadow: 0 0 0 4px rgba(30, 136, 229, 0.25); }
+
+/* ---------- Layar selesai ---------- */
+
+.done-hero { text-align: center; }
+.done-hero img { width: 120px; height: 120px; display: block; margin: 0 auto 6px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .timer-box.timer-warn { animation: none; }
+}
+
+@media (max-width: 380px) {
+  .timer { font-size: 23px; }
+  .timer-box { min-width: 92px; }
+  .question-text { font-size: 17px; }
+}

@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Maskot SIBER-UJIAN">
+  <!-- Bayangan -->
+  <ellipse cx="100" cy="186" rx="52" ry="8" fill="#1D2B53" opacity="0.18"/>
+  <!-- Badan -->
+  <path d="M42 110 C42 62 66 40 100 40 C134 40 158 62 158 110 C158 152 134 176 100 176 C66 176 42 152 42 110 Z" fill="#7C5CFF" stroke="#1D2B53" stroke-width="6"/>
+  <!-- Telinga -->
+  <path d="M58 64 L50 30 L82 50 Z" fill="#7C5CFF" stroke="#1D2B53" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M142 64 L150 30 L118 50 Z" fill="#7C5CFF" stroke="#1D2B53" stroke-width="6" stroke-linejoin="round"/>
+  <!-- Perut -->
+  <path d="M68 128 C68 104 82 96 100 96 C118 96 132 104 132 128 C132 154 118 166 100 166 C82 166 68 154 68 128 Z" fill="#FFF4D6" stroke="#1D2B53" stroke-width="4"/>
+  <path d="M84 126 q6 6 12 0 M104 126 q6 6 12 0 M94 144 q6 6 12 0" fill="none" stroke="#E0B85C" stroke-width="4" stroke-linecap="round"/>
+  <!-- Sayap -->
+  <path d="M44 116 C30 124 30 146 46 156 C50 140 52 128 44 116 Z" fill="#5B3FE0" stroke="#1D2B53" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M156 116 C170 124 170 146 154 156 C150 140 148 128 156 116 Z" fill="#5B3FE0" stroke="#1D2B53" stroke-width="5" stroke-linejoin="round"/>
+  <!-- Mata -->
+  <circle cx="78" cy="84" r="22" fill="#FFFFFF" stroke="#1D2B53" stroke-width="5"/>
+  <circle cx="122" cy="84" r="22" fill="#FFFFFF" stroke="#1D2B53" stroke-width="5"/>
+  <circle cx="81" cy="86" r="10" fill="#1D2B53"/>
+  <circle cx="119" cy="86" r="10" fill="#1D2B53"/>
+  <circle cx="85" cy="82" r="3.5" fill="#FFFFFF"/>
+  <circle cx="123" cy="82" r="3.5" fill="#FFFFFF"/>
+  <!-- Pipi -->
+  <circle cx="62" cy="106" r="6" fill="#FF8FB1" opacity="0.8"/>
+  <circle cx="138" cy="106" r="6" fill="#FF8FB1" opacity="0.8"/>
+  <!-- Paruh -->
+  <path d="M92 100 L108 100 L100 114 Z" fill="#FFB020" stroke="#1D2B53" stroke-width="4" stroke-linejoin="round"/>
+  <!-- Topi wisuda -->
+  <path d="M60 38 L100 22 L140 38 L100 54 Z" fill="#1D2B53"/>
+  <rect x="84" y="40" width="32" height="12" rx="3" fill="#1D2B53"/>
+  <path d="M136 40 L136 62" stroke="#FFC93C" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="136" cy="66" r="5" fill="#FFC93C" stroke="#1D2B53" stroke-width="2"/>
+  <!-- Kaki -->
+  <path d="M84 172 l-6 10 M90 174 l0 10 M110 174 l0 10 M116 172 l6 10" stroke="#FFB020" stroke-width="6" stroke-linecap="round"/>
+</svg>

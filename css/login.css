@@ -1,0 +1,34 @@
+/* SIBER-UJIAN — login.css (formulir masuk) */
+
+#login-form label {
+  display: block;
+  font-size: 15px;
+  font-weight: 800;
+  margin: 14px 0 6px;
+}
+
+#login-form input {
+  width: 100%;
+  min-height: 50px;
+  padding: 10px 14px;
+  border: 3px solid var(--line);
+  border-radius: var(--radius-md);
+  font-size: 17px;          /* minimal 16px agar iPhone tidak zoom otomatis */
+  font-weight: 700;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: #FFFFFF;
+}
+
+#login-form input:focus {
+  outline: none;
+  border-color: var(--ocean);
+  box-shadow: 0 0 0 4px rgba(30, 136, 229, 0.2);
+}
+
+.theme-kids #login-form input { border-color: var(--ink); }
+.theme-kids #login-form input:focus { border-color: var(--ocean); }
+
+.password-row { display: flex; gap: 8px; align-items: stretch; }
+.password-row input { flex: 1; }
+.password-row .btn { flex: 0 0 auto; }

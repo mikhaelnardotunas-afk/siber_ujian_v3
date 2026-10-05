@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' https: data: blob:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>Laporan - SIBER-UJIAN</title>
+  <link rel="icon" type="image/png" href="assets/icons/favicon.png">
+  <link rel="stylesheet" href="css/laporan.css">
+</head>
+<body>
+  <div class="alat">
+    <button type="button" id="btn-print" disabled>🖨️ Cetak / Simpan PDF</button>
+    <span id="status">Menyiapkan laporan… jangan tutup tab dashboard guru.</span>
+  </div>
+  <div class="wrap" id="isi"></div>
+  <script src="js/math-render.js" defer></script>
+  <script src="js/laporan-view.js" defer></script>
+</body>
+</html>

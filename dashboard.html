@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2e8fd8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; connect-src 'self' https://script.google.com https://script.googleusercontent.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>Dashboard Guru - SIBER-UJIAN</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="assets/icons/favicon.png">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/login.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/guru.css">
+</head>
+<body class="theme-pro theme-guru">
+  <header class="pro-header">
+    <div class="pro-header-inner">
+      <img src="assets/mascot.svg" class="pro-logo" alt="">
+      <div class="pro-titles">
+        <div class="app-title">SIBER-UJIAN</div>
+        <div class="pro-subtitle">Dashboard Guru · <span id="school-name">&nbsp;</span></div>
+      </div>
+      <div class="net-status" id="net-status">...</div>
+    </div>
+  </header>
+
+  <main class="container wide">
+
+    <div id="pwa-bar" class="pwa-bar" hidden>
+      <span id="pwa-status" class="pwa-status">Memeriksa mode offline...</span>
+      <button type="button" id="btn-pwa-install" class="btn btn-light btn-small" hidden>Pasang aplikasi</button>
+      <button type="button" id="btn-pwa-update" class="btn btn-primary btn-small" hidden>Perbarui ke versi baru</button>
+    </div>
+
+    <section id="screen-loading" class="screen">
+      <div class="card"><p>Memuat dashboard...</p></div>
+    </section>
+
+    <section id="screen-fatal" class="screen" hidden>
+      <div class="card">
+        <h2>Dashboard tidak dapat berjalan</h2>
+        <div id="fatal-message" class="msg msg-error"></div>
+      </div>
+    </section>
+
+    <section id="screen-setup" class="screen" hidden>
+      <div class="card">
+        <h2>Alamat server belum diatur</h2>
+        <p>Buat file <code>js/api-url.js</code> berisi:
+          <code>const SIBER_API_URL = 'https://script.google.com/macros/s/.../exec';</code></p>
+      </div>
+    </section>
+
+    <section id="screen-login" class="screen" hidden>
+      <div class="card narrow login-card">
+        <h2>Masuk guru / admin</h2>
+        <p class="small">Halaman ini khusus akun guru (TEACHER) dan admin (ADMIN).
+          Siswa memakai <a href="index.html">aplikasi ujian</a>.</p>
+        <form id="login-form" autocomplete="off" novalidate>
+          <label for="login-username">Username</label>
+          <input id="login-username" type="text" autocapitalize="none" autocorrect="off"
+                 spellcheck="false" maxlength="50">
+
+          <label for="login-password">Password</label>
+          <div class="password-row">
+            <input id="login-password" type="password" maxlength="100">
+            <button type="button" id="btn-toggle-password" class="btn btn-light btn-small">Lihat</button>
+          </div>
+
+          <button type="submit" id="btn-login" class="btn btn-primary btn-block">Masuk</button>
+        </form>
+        <div id="login-message" class="msg" hidden></div>
+      </div>
+    </section>
+
+    <section id="screen-home" class="screen" hidden>
+
+      <div class="card control-card">
+        <div class="dash-head">
+          <div>
+            <div class="small">Masuk sebagai <span id="dash-role"></span></div>
+            <h2 id="dash-teacher"></h2>
+          </div>
+          <button type="button" id="btn-logout" class="btn btn-light btn-small">Keluar</button>
+        </div>
+
+        <div class="toolbar">
+          <label class="field">Ujian
+            <select id="sel-exam"></select>
+          </label>
+          <label class="field">Kelas
+            <select id="sel-class"><option value="">Semua kelas</option></select>
+          </label>
+          <label class="field">Urutkan peserta
+            <select id="sel-sort">
+              <option value="class">Kelas lalu nama</option>
+              <option value="score_desc">Nilai tertinggi</option>
+              <option value="score_asc">Nilai terendah</option>
+              <option value="violations">Pelanggaran terbanyak</option>
+              <option value="status">Belum terkirim dulu</option>
+              <option value="warn">Ada catatan dulu</option>
+            </select>
+          </label>
+          <button type="button" id="btn-refresh" class="btn btn-primary">Perbarui</button>
+        </div>
+        <label class="check-row"><input type="checkbox" id="chk-auto"> Perbarui otomatis setiap 60 detik (saat online)</label>
+        <div id="dash-message" class="msg" hidden></div>
+      </div>
+
+      <div class="exam-banner">
+        <h1 id="dash-exam-title">Pilih ujian</h1>
+        <div id="dash-exam-info" class="exam-banner-info"></div>
+        <div id="dash-fetched" class="exam-banner-meta"></div>
+      </div>
+
+      <div id="dash-note" class="msg msg-info" hidden></div>
+
+      <div id="summary-grid" class="summary-grid"></div>
+
+      <nav class="tabs" id="dash-tabs" role="tablist">
+        <button type="button" class="tab is-active" role="tab" aria-selected="true" data-tab="pantau">📡 Pantau langsung</button>
+        <button type="button" class="tab" role="tab" aria-selected="false" data-tab="hasil">🏆 Hasil &amp; nilai</button>
+        <button type="button" class="tab" role="tab" aria-selected="false" data-tab="siswa">📱 Siswa &amp; HP</button>
+        <button type="button" class="tab" role="tab" aria-selected="false" data-tab="laporan">📄 Laporan PDF</button>
+        <button type="button" class="tab" role="tab" aria-selected="false" data-tab="token">🔑 Token</button>
+      </nav>
+
+      <div class="tabpane" id="tab-pantau" role="tabpanel">
+      <div class="two-col">
+        <div class="card" id="live-card">
+          <div class="card-head">
+            <h3>Pantauan langsung</h3>
+            <button type="button" id="btn-live-refresh" class="btn btn-light btn-small">Muat ulang</button>
+          </div>
+          <p class="small">Hanya siswa yang sedang terhubung internet yang bisa dipantau. Siswa yang ujian tanpa internet terlihat "Tidak terhubung" sampai online kembali.</p>
+          <div id="live-summary" class="live-summary"></div>
+          <div id="live-message" class="msg" hidden></div>
+          <div id="live" class="table-wrap"></div>
+        </div>
+
+        <div class="card" id="msg-card">
+          <div class="card-head"><h3>Kirim pesan ke layar siswa</h3></div>
+          <label class="field">Kepada
+            <select id="msg-target"></select>
+          </label>
+          <label class="field">Pesan
+            <textarea id="msg-input" rows="3" maxlength="300" placeholder="Contoh: Sisa waktu 10 menit, periksa kembali jawabanmu."></textarea>
+          </label>
+          <div class="msg-actions">
+            <span id="msg-counter" class="small">0 / 300</span>
+            <button type="button" id="btn-send-message" class="btn btn-primary">Kirim pesan</button>
+          </div>
+          <div id="msgsend-message" class="msg" hidden></div>
+          <h4 class="sub-head">Riwayat pesan</h4>
+          <div id="msg-list" class="msg-list"></div>
+        </div>
+      </div>
+      </div>
+
+      <div class="tabpane" id="tab-hasil" role="tabpanel" hidden>
+      <div class="card">
+        <div class="card-head">
+          <h3>Daftar peserta &amp; nilai</h3>
+          <button type="button" id="btn-regrade" class="btn btn-light btn-small" title="Menilai ulang semua jawaban ujian ini dengan kunci & bobot terbaru di sheet QUESTIONS">♻️ Nilai ulang (kunci terbaru)</button>
+        </div>
+        <div id="regrade-message" class="msg" hidden></div>
+        <p class="small">Merah muda = ada pelanggaran (keluar layar, aplikasi ditutup, keluar layar penuh). Kuning = ada catatan jam/data. Arahkan kursor ke angka pelanggaran untuk melihat rinciannya. Tekan <b>Detail</b> untuk melihat lembar jawaban, <b>mengoreksi nilai</b> per soal, atau <b>menghapus kiriman</b> agar siswa bisa ujian ulang.</p>
+        <div id="participants" class="table-wrap"></div>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <h3>Rekap per kelas</h3>
+          <div id="by-class" class="table-wrap"></div>
+        </div>
+
+        <div class="card">
+          <h3>Export</h3>
+          <p class="small">Mengekspor data yang sedang tampil (ujian dan filter kelas).</p>
+          <div class="export-grid">
+            <button type="button" id="btn-export-xlsx" class="btn btn-primary">Excel (.xlsx)</button>
+            <button type="button" id="btn-export-print" class="btn btn-primary">Cetak / PDF</button>
+            <button type="button" id="btn-export-csv-participants" class="btn btn-light">CSV peserta</button>
+            <button type="button" id="btn-export-csv-items" class="btn btn-light">CSV analisis soal</button>
+          </div>
+          <div id="export-message" class="msg" hidden></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Analisis butir soal</h3>
+        <p class="small">Mudah: 70% siswa atau lebih menjawab benar. Sedang: 30–70%. Sukar: di bawah 30%.
+          Sebaran memakai huruf pilihan asli sesuai sheet QUESTIONS.</p>
+        <div id="items" class="table-wrap"></div>
+      </div>
+      </div>
+
+      <div class="tabpane" id="tab-siswa" role="tabpanel" hidden>
+        <div class="card">
+          <div class="card-head">
+            <h3>Kesiapan kelas</h3>
+            <button type="button" id="btn-siswa-refresh" class="btn btn-primary btn-small">Muat ulang</button>
+          </div>
+          <p class="small">Mengikuti pilihan <b>Ujian</b> dan <b>Kelas</b> di atas. Data HP dikirim otomatis setiap kali HP siswa online
+            (saat login, memperbarui daftar, mengunduh soal, dan mengirim hasil). Login yang terjadi saat offline baru muncul setelah HP itu online lagi.</p>
+          <div id="siswa-message" class="msg" hidden></div>
+          <div id="siswa-summary" class="table-wrap"></div>
+        </div>
+        <div class="card">
+          <div class="card-head">
+            <h3>Login siswa</h3>
+            <label class="field field-inline">Tampilkan
+              <select id="siswa-filter">
+                <option value="">Semua siswa</option>
+                <option value="never">Belum pernah login</option>
+                <option value="noexam">Belum ada HP siap (ujian ini)</option>
+                <option value="notsent">Belum mengirim hasil</option>
+                <option value="pending">Jawaban tertahan di HP</option>
+              </select>
+            </label>
+          </div>
+          <div id="siswa-students" class="table-wrap"></div>
+        </div>
+        <div class="card">
+          <h3>Daftar HP</h3>
+          <p class="small">"Ujian ini ada?" = paket soal ujian terpilih sudah diunduh dan siap di HP tersebut. "Versi lama" = siswa perlu menekan <b>Perbarui daftar</b> lalu unduh ulang.
+            "Jawaban tertahan" &gt; 0 = ada hasil yang belum terkirim; minta siswa membuka aplikasi saat online lalu tekan <b>Kirim hasil sekarang</b>.</p>
+          <div id="siswa-devices" class="table-wrap"></div>
+        </div>
+      </div>
+
+      <div class="tabpane" id="tab-laporan" role="tabpanel" hidden>
+        <div class="card">
+          <div class="card-head">
+            <h3>Buat laporan PDF</h3>
+            <button type="button" id="btn-lap-refresh" class="btn btn-light btn-small">Muat ulang data</button>
+          </div>
+          <p class="small">Pilih jenis laporan, atur pilihan, lalu tekan <b>Buat laporan</b>. Laporan terbuka di tab baru; tekan
+            <b>🖨️ Cetak / Simpan PDF</b> lalu pilih tujuan <b>Simpan sebagai PDF</b>. Bisa di laptop maupun Chrome Android.</p>
+          <div id="lap-message" class="msg" hidden></div>
+          <form id="lap-form" autocomplete="off" novalidate>
+            <div class="lap-types" id="lap-types">
+              <label class="lap-type"><input type="radio" name="lap-jenis" value="rekap" checked><span><b>📊 Rekap nilai satu ujian</b><small>Per kelas atau semua kelas, ketuntasan, peringkat, sebaran nilai</small></span></label>
+              <label class="lap-type"><input type="radio" name="lap-jenis" value="detail"><span><b>📝 Lembar jawaban per siswa</b><small>Jawaban vs kunci, 1 halaman per siswa</small></span></label>
+              <label class="lap-type"><input type="radio" name="lap-jenis" value="analisis"><span><b>🔍 Analisis butir soal</b><small>Tingkat kesukaran & sebaran pilihan satu ujian</small></span></label>
+              <label class="lap-type"><input type="radio" name="lap-jenis" value="kelas"><span><b>🏫 Rekap semua ujian per kelas</b><small>Tabel nilai semua ujian satu kelas</small></span></label>
+              <label class="lap-type"><input type="radio" name="lap-jenis" value="mapel"><span><b>📚 Rekap per mata pelajaran</b><small>Semua ujian satu mapel, per kelas atau semua kelas</small></span></label>
+              <label class="lap-type"><input type="radio" name="lap-jenis" value="riwayat"><span><b>👤 Riwayat nilai satu siswa</b><small>Semua ujian yang diikuti satu siswa</small></span></label>
+            </div>
+            <div class="lap-grid">
+              <label class="field" data-lap="rekap detail analisis">Ujian<select id="lap-exam"></select></label>
+              <label class="field" data-lap="rekap detail analisis kelas mapel riwayat">Kelas<select id="lap-class"></select></label>
+              <label class="field" data-lap="detail riwayat">Siswa<select id="lap-student"></select></label>
+              <label class="field" data-lap="kelas mapel">Mata pelajaran<select id="lap-subject"></select></label>
+              <label class="field" data-lap="rekap kelas mapel">Urutan<select id="lap-sort">
+                <option value="kelas">Kelas, lalu nama</option>
+                <option value="nama">Nama</option>
+                <option value="nilai">Nilai tertinggi (peringkat)</option>
+              </select></label>
+              <label class="field" data-lap="rekap detail kelas mapel riwayat">KKM<input type="number" id="lap-kkm" min="0" max="100" step="1"></label>
+              <label class="field">Tanggal laporan<input type="date" id="lap-date"></label>
+            </div>
+            <div class="lap-checks">
+              <label class="check-row" data-lap="rekap"><input type="checkbox" id="lap-absent" checked> Tampilkan siswa yang tidak ikut</label>
+              <label class="check-row" data-lap="detail"><input type="checkbox" id="lap-qtext" checked> Sertakan teks soal &amp; pilihan</label>
+              <label class="check-row" data-lap="detail"><input type="checkbox" id="lap-key" checked> Tampilkan kunci jawaban</label>
+              <label class="check-row"><input type="checkbox" id="lap-sign" checked> Tanda tangan guru &amp; kepala sekolah</label>
+            </div>
+            <details class="lap-identity">
+              <summary>Ubah identitas kop &amp; tanda tangan</summary>
+              <div class="lap-grid">
+                <label class="field">Kota<input type="text" id="lap-city" maxlength="120"></label>
+                <label class="field">Tahun pelajaran<input type="text" id="lap-year" maxlength="120"></label>
+                <label class="field">Nama guru<input type="text" id="lap-teacher" maxlength="120"></label>
+                <label class="field">NIP guru<input type="text" id="lap-teacher-nip" maxlength="120"></label>
+                <label class="field">Nama kepala sekolah<input type="text" id="lap-head" maxlength="120"></label>
+                <label class="field">NIP kepala sekolah<input type="text" id="lap-head-nip" maxlength="120"></label>
+                <label class="field field-wide">Link logo sekolah (opsional, https://...)<input type="text" id="lap-logo" maxlength="500"></label>
+              </div>
+              <p class="small">Isian ini dipakai untuk laporan berikutnya. Tekan <b>Simpan sebagai bawaan</b> agar tersimpan di sheet CONFIG untuk semua guru.</p>
+              <button type="button" id="btn-lap-save-settings" class="btn btn-light btn-small">💾 Simpan sebagai bawaan</button>
+            </details>
+            <button type="submit" id="btn-lap-make" class="btn btn-primary btn-big">📄 Buat laporan</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="tabpane" id="tab-token" role="tabpanel" hidden>
+        <div class="card">
+          <div class="card-head">
+            <h3>Token ujian</h3>
+            <button type="button" id="btn-token-refresh" class="btn btn-light btn-small">Muat ulang</button>
+          </div>
+          <p class="small">Token hanya untuk ujian dengan <b>TOKEN_REQUIRED = YES</b>. Setiap token dibuat, VERSION ujian naik otomatis:
+            siswa harus menekan <b>Perbarui daftar</b> lalu <b>Unduh soal</b> SETELAH token dibuat (saat ada internet) agar token bisa dipakai offline.</p>
+          <label class="check-row"><input type="checkbox" id="token-only-exam" checked> Hanya token ujian yang dipilih di atas</label>
+          <div id="token-message" class="msg" hidden></div>
+          <div id="token-list" class="table-wrap"></div>
+        </div>
+        <div class="card">
+          <h3>Buat token baru</h3>
+          <form id="token-form" autocomplete="off" novalidate>
+            <div class="lap-grid">
+              <label class="field">Ujian<select id="token-exam"></select></label>
+              <label class="field">Tanggal ujian<input type="date" id="token-date"></label>
+              <label class="field">Jam mulai<input type="time" id="token-from" value="07:00"></label>
+              <label class="field">Jam selesai<input type="time" id="token-until" value="12:00"></label>
+            </div>
+            <label class="check-row"><input type="checkbox" id="token-allday"> Berlaku sepanjang hari (00:00–23:59)</label>
+            <button type="submit" id="btn-token-create" class="btn btn-primary">🔑 Buat token</button>
+            <p class="small">Proses membuat token bisa 10–60 detik. Jangan tutup halaman.</p>
+          </form>
+          <div id="token-created" class="token-created" hidden></div>
+        </div>
+      </div>
+
+      <p class="small center"><a href="index.html">Buka aplikasi ujian siswa</a></p>
+    </section>
+  </main>
+
+  <div id="detail-modal" class="modal" hidden>
+    <div class="modal-card">
+      <div class="dash-head">
+        <h3 id="detail-title">Detail jawaban</h3>
+        <div class="dash-head-actions">
+          <button type="button" id="btn-detail-print" class="btn btn-light btn-small" hidden>📄 Lembar jawaban PDF</button>
+          <button type="button" id="btn-detail-delete" class="btn btn-danger btn-small" hidden>🗑️ Hapus kiriman</button>
+          <button type="button" id="btn-detail-close" class="btn btn-light btn-small">Tutup</button>
+        </div>
+      </div>
+      <table class="info-table"><tbody id="detail-info"></tbody></table>
+      <p class="small">Huruf jawaban sesuai urutan pilihan asli di sheet QUESTIONS (bukan urutan acak di layar siswa).
+        <b>Koreksi:</b> ✔ = anggap benar, ✘ = anggap salah, ↺ = kembali dinilai otomatis dengan kunci. Nilai langsung dihitung ulang.</p>
+      <div id="detail-message" class="msg" hidden></div>
+      <div id="detail-answers" class="table-wrap"></div>
+    </div>
+  </div>
+
+  <footer class="footer" id="footer-version"></footer>
+
+  <div id="print-area" class="print-area"></div>
+
+  <script src="js/api-url.js" defer></script>
+  <script src="js/config.js" defer></script>
+  <script src="js/math-render.js" defer></script>
+  <script src="js/ui.js" defer></script>
+  <script src="js/db.js" defer></script>
+  <script src="js/api.js" defer></script>
+  <script src="js/auth.js" defer></script>
+  <script src="js/dashboard.js" defer></script>
+  <script src="js/reports.js" defer></script>
+  <script src="js/laporan.js" defer></script>
+  <script src="js/guru-extra.js" defer></script>
+  <script src="js/pwa.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,443 @@
+/* =====================================================================
+   SIBER-UJIAN — style.css
+   Dasar semua halaman + tema siswa "Langit Petualangan" (body.theme-kids).
+   Dashboard guru memakai tema formal di dashboard.css (body.theme-pro).
+   ===================================================================== */
+
+:root {
+  --sky-top: #2EA8F0;
+  --sky-mid: #6CC6F7;
+  --sky-low: #C9EEFF;
+  --sun: #FFC93C;
+  --sun-dark: #E6A400;
+  --tomato: #F0433A;
+  --tomato-dark: #C2241C;
+  --leaf: #2FBF5B;
+  --leaf-dark: #1E9443;
+  --grape: #7C5CFF;
+  --grape-dark: #5B3FE0;
+  --ocean: #1E88E5;
+  --ocean-dark: #1565C0;
+  --ink: #1D2B53;
+  --ink-soft: #3C4A73;
+  --muted: #5E6B8C;
+  --paper: #FFFFFF;
+  --mist: #EEF7FF;
+  --line: #CFE3F5;
+
+  --radius-xl: 26px;
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+
+  --font-display: "Nunito", "Baloo 2", "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Nunito", "Segoe UI", Roboto, system-ui, -apple-system, sans-serif;
+}
+
+/* ---------- Dasar ---------- */
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html, body { margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--mist);
+  min-height: 100vh;
+}
+
+h2, h3, h4 { margin-top: 0; line-height: 1.2; }
+a { color: var(--ocean-dark); font-weight: 700; }
+code { background: var(--mist); padding: 1px 6px; border-radius: 6px; font-size: 0.92em; }
+.small { font-size: 14px; color: var(--muted); }
+.muted { color: var(--muted); }
+.center { text-align: center; }
+
+:focus-visible { outline: 3px solid var(--sun); outline-offset: 2px; }
+
+.container { max-width: 620px; margin: 0 auto; padding: 16px 14px 120px; position: relative; z-index: 1; }
+
+/* ---------- Kartu ---------- */
+
+.card {
+  background: var(--paper);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  margin-bottom: 18px;
+}
+
+/* ---------- Tombol ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 48px;
+  padding: 10px 18px;
+  border: 0;
+  border-radius: var(--radius-md);
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  color: var(--ink);
+  background: var(--paper);
+  text-decoration: none;
+  transition: transform 0.06s ease, box-shadow 0.06s ease;
+}
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-small { min-height: 38px; padding: 6px 12px; font-size: 14px; }
+.btn-block { display: flex; width: 100%; margin-top: 12px; }
+.btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+.btn-row .btn { flex: 1 1 140px; }
+
+/* ---------- Pesan ---------- */
+
+.msg {
+  margin-top: 12px;
+  padding: 11px 14px;
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  font-weight: 600;
+  word-break: break-word;
+  border-left: 6px solid transparent;
+}
+.msg-error { background: #FFE4E1; color: #9B1C14; border-left-color: var(--tomato); }
+.msg-ok { background: #DDF8E5; color: #145C2C; border-left-color: var(--leaf); }
+.msg-info { background: #E1F1FF; color: #134A8E; border-left-color: var(--ocean); }
+.msg-warn { background: #FFF3CC; color: #7A5300; border-left-color: var(--sun-dark); }
+
+/* ---------- Lencana ---------- */
+
+.badge-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.badge {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--mist);
+  color: var(--ink-soft);
+}
+.badge-warn { background: #FFF0BF; color: #7A5300; }
+.badge-done { background: #CFF5DB; color: #145C2C; }
+.badge-bad { background: #FFD6D2; color: #9B1C14; }
+
+.mode-badge {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 999px;
+  margin-bottom: 10px;
+}
+.mode-online { background: #CFF5DB; color: #145C2C; }
+.mode-offline { background: #FFF0BF; color: #7A5300; }
+
+/* ---------- Tabel info ---------- */
+
+.info-table { width: 100%; border-collapse: collapse; font-size: 14px; margin-bottom: 8px; }
+.info-table th {
+  text-align: left;
+  color: var(--muted);
+  font-weight: 600;
+  padding: 6px 10px 6px 0;
+  width: 44%;
+  vertical-align: top;
+}
+.info-table td { padding: 6px 0; word-break: break-word; font-weight: 600; }
+.info-table tr + tr th, .info-table tr + tr td { border-top: 1px dashed var(--line); }
+
+/* ---------- Status jaringan & PWA ---------- */
+
+.net-status {
+  font-size: 13px;
+  font-weight: 800;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: #8A94AD;
+  color: #FFFFFF;
+  white-space: nowrap;
+}
+.net-status.is-online { background: var(--leaf); }
+.net-status.is-offline { background: var(--tomato); }
+
+.pwa-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: var(--paper);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+.pwa-bar .btn { flex: 0 0 auto; }
+.pwa-status.ok { color: #145C2C; font-weight: 800; }
+.pwa-status.warn { color: #7A5300; font-weight: 800; }
+.pwa-status.error { color: #9B1C14; font-weight: 800; }
+
+/* ---------- Panel debug & zona bahaya ---------- */
+
+.debug summary { cursor: pointer; font-weight: 800; }
+.debug pre {
+  font-size: 12px;
+  background: #16213E;
+  color: #E2E8F5;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  overflow-x: auto;
+  max-height: 360px;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.footer { text-align: center; font-size: 13px; color: var(--muted); padding: 8px 0 24px; position: relative; z-index: 1; }
+
+/* =====================================================================
+   TEMA SISWA: "Langit Petualangan"
+   Ciri khas: langit cerah, bukit hijau, kartu bergaris tebal seperti stiker,
+   tombol tebal yang "tertekan" saat disentuh.
+   ===================================================================== */
+
+body.theme-kids {
+  font-family: var(--font-body);
+  background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 38%, var(--sky-low) 100%) fixed;
+}
+
+/* Awan */
+body.theme-kids::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(60px 26px at 12% 14%, rgba(255,255,255,0.95) 98%, transparent 100%),
+    radial-gradient(42px 22px at 16% 11%, rgba(255,255,255,0.95) 98%, transparent 100%),
+    radial-gradient(70px 28px at 84% 22%, rgba(255,255,255,0.85) 98%, transparent 100%),
+    radial-gradient(46px 24px at 80% 19%, rgba(255,255,255,0.85) 98%, transparent 100%),
+    radial-gradient(54px 22px at 58% 8%, rgba(255,255,255,0.7) 98%, transparent 100%);
+}
+
+/* Bukit */
+body.theme-kids::after {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 120px;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(120% 90px at 20% 100%, #4CCB6E 98%, transparent 100%),
+    radial-gradient(110% 110px at 85% 100%, #3BB65D 98%, transparent 100%),
+    linear-gradient(0deg, #2FA650 0 34px, transparent 34px);
+}
+
+.theme-kids .topbar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  max-width: 620px;
+  margin: 0 auto;
+}
+.theme-kids .topbar-mascot {
+  width: 54px;
+  height: 54px;
+  flex: 0 0 auto;
+  filter: drop-shadow(0 3px 0 rgba(29, 43, 83, 0.35));
+}
+.theme-kids .topbar-titles { flex: 1 1 auto; min-width: 0; }
+.theme-kids .app-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 24px;
+  letter-spacing: 0.5px;
+  color: #FFFFFF;
+  text-shadow: 0 3px 0 var(--ink), 2px 0 0 var(--ink), -2px 0 0 var(--ink), 0 -2px 0 var(--ink);
+  line-height: 1.1;
+}
+.theme-kids .school-name { font-size: 14px; font-weight: 800; color: var(--ink); opacity: 0.85; }
+.theme-kids .net-status { border: 2px solid var(--ink); box-shadow: 0 3px 0 var(--ink); }
+
+/* Kartu stiker */
+.theme-kids .card {
+  border: 3px solid var(--ink);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 6px 0 var(--ink);
+  padding: 20px;
+}
+.theme-kids .card h2,
+.theme-kids .card h3 {
+  font-family: var(--font-display);
+  font-weight: 900;
+  color: var(--ink);
+}
+.theme-kids .card h2 { font-size: 26px; }
+.theme-kids .card h3 { font-size: 21px; }
+
+/* Tombol tebal */
+.theme-kids .btn {
+  border: 3px solid var(--ink);
+  box-shadow: 0 5px 0 var(--ink);
+  border-radius: var(--radius-md);
+}
+.theme-kids .btn:active:not(:disabled) { transform: translateY(4px); box-shadow: 0 1px 0 var(--ink); }
+.theme-kids .btn-primary { background: var(--sun); color: var(--ink); }
+.theme-kids .btn-secondary { background: var(--ocean); color: #FFFFFF; }
+.theme-kids .btn-danger { background: var(--tomato); color: #FFFFFF; }
+.theme-kids .btn-light { background: #FFFFFF; color: var(--ink); }
+.theme-kids .btn-big { font-size: 19px; min-height: 56px; }
+
+.theme-kids .pwa-bar { border: 3px solid var(--ink); box-shadow: 0 4px 0 var(--ink); }
+.theme-kids .msg { border: 2px solid rgba(29, 43, 83, 0.12); border-left-width: 6px; }
+.theme-kids .badge { border: 2px solid rgba(29, 43, 83, 0.15); }
+.theme-kids .footer { color: #FFFFFF; font-weight: 800; text-shadow: 0 2px 0 rgba(29, 43, 83, 0.4); }
+
+/* Layar login */
+.theme-kids .login-hero { text-align: center; padding-top: 8px; }
+.theme-kids .login-hero img {
+  width: 132px;
+  height: 132px;
+  margin: -6px auto 4px;
+  display: block;
+  animation: hop 2.6s ease-in-out infinite;
+}
+.theme-kids .login-hero h2 { margin-bottom: 4px; }
+.theme-kids .login-hero p { margin: 0 0 6px; color: var(--muted); font-weight: 700; }
+
+@keyframes hop {
+  0%, 70%, 100% { transform: translateY(0); }
+  80% { transform: translateY(-12px); }
+  90% { transform: translateY(0); }
+}
+
+/* Beranda */
+.theme-kids .home-hello { display: flex; align-items: center; gap: 12px; }
+.theme-kids .home-hello img { width: 64px; height: 64px; flex: 0 0 auto; }
+.theme-kids .home-hello h2 { margin: 0; }
+
+.theme-kids .section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.theme-kids .section-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 3px solid var(--ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex: 0 0 auto;
+}
+.theme-kids .icon-sun { background: var(--sun); }
+.theme-kids .icon-leaf { background: #7FE09A; }
+.theme-kids .icon-sky { background: #9FD8FF; }
+.theme-kids .icon-grape { background: #C9BBFF; }
+
+/* Kartu ujian di beranda */
+.theme-kids .exam-card {
+  border: 3px solid var(--ink);
+  border-radius: var(--radius-lg);
+  padding: 14px 14px 16px;
+  margin-top: 14px;
+  background: #FFFFFF;
+  position: relative;
+  overflow: hidden;
+}
+.theme-kids .exam-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 10px;
+  background: var(--ocean);
+}
+.theme-kids .exam-card.mode-total::before { background: var(--ocean); }
+.theme-kids .exam-card.mode-per_soal::before { background: var(--tomato); }
+.theme-kids .exam-card.mode-fixed::before { background: var(--grape); }
+.theme-kids .exam-card.result-card::before { background: var(--leaf); }
+.theme-kids .exam-card > * { margin-left: 8px; }
+.theme-kids .exam-card-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.theme-kids .exam-card h4 { margin: 0; font-family: var(--font-display); font-weight: 900; font-size: 19px; }
+.theme-kids .subject-chip {
+  font-size: 12px;
+  font-weight: 900;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--sun);
+  border: 2px solid var(--ink);
+}
+.theme-kids .exam-meta { font-size: 14px; margin-top: 4px; font-weight: 600; color: var(--ink-soft); }
+.theme-kids .empty-note { font-weight: 700; }
+
+.theme-kids .danger-zone { border-color: var(--tomato); box-shadow: 0 6px 0 var(--tomato-dark); }
+
+/* ---------- Jendela pesan dari guru ---------- */
+
+.msg-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgba(16, 26, 54, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+.msg-modal-card {
+  width: 100%;
+  max-width: 440px;
+  background: #FFFFFF;
+  border: 4px solid var(--ink);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 8px 0 var(--ink);
+  padding: 18px 18px 20px;
+  animation: pop 0.25s ease-out;
+}
+.msg-modal-head { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+.msg-modal-head img { width: 58px; height: 58px; }
+.msg-modal-from { font-family: var(--font-display); font-weight: 900; font-size: 19px; }
+.msg-modal-time { font-size: 13px; color: var(--muted); font-weight: 700; }
+.msg-modal-text {
+  background: #FFF8DB;
+  border: 3px dashed var(--sun-dark);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  font-size: 18px;
+  font-weight: 700;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.msg-modal-count { font-size: 13px; color: var(--muted); font-weight: 700; margin-top: 8px; min-height: 1em; }
+
+@keyframes pop {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-kids .login-hero img, .msg-modal-card { animation: none; }
+}
+
+/* MathML/LaTeX presentation */
+.latex-content { overflow-wrap: anywhere; line-height: 1.75; }
+.latex-content math { font-size: 1.08em; vertical-align: middle; }
+.latex-content math[display="block"] { display: block; margin: .55em 0; overflow-x: auto; overflow-y: hidden; text-align: center; }
+.option-text.latex-content { min-width: 0; }

@@ -1,0 +1,300 @@
+/* =====================================================================
+   SIBER-UJIAN — dashboard.css
+   Tema guru "Rapor Resmi" (body.theme-pro): biru tinta + aksen emas,
+   judul bergaya serif seperti dokumen sekolah, warna kategori yang jelas.
+   ===================================================================== */
+
+body.theme-pro {
+  --pro-ink: #1C2147;
+  --pro-indigo: #232A63;
+  --pro-indigo-2: #343C8A;
+  --pro-gold: #E8A930;
+  --pro-bg: #F3F4F9;
+  --pro-line: #E1E4EF;
+  --pro-text: #232842;
+  --pro-muted: #66708A;
+  --pro-emerald: #1F9D63;
+  --pro-amber: #D9890B;
+  --pro-rose: #D6456E;
+  --pro-sky: #2877C9;
+  --pro-slate: #6B7590;
+  --serif: Georgia, "Times New Roman", "Liberation Serif", serif;
+  --sans: "Segoe UI", Roboto, "Helvetica Neue", Arial, system-ui, sans-serif;
+
+  font-family: var(--sans);
+  background: var(--pro-bg);
+  color: var(--pro-text);
+}
+
+.theme-pro .container.wide { max-width: 1180px; padding-bottom: 40px; }
+.theme-pro .card.narrow { max-width: 460px; margin-left: auto; margin-right: auto; }
+
+/* ---------- Kepala halaman ---------- */
+
+.theme-pro .pro-header {
+  background: linear-gradient(120deg, var(--pro-indigo) 0%, var(--pro-indigo-2) 100%);
+  border-bottom: 4px solid var(--pro-gold);
+  color: #FFFFFF;
+}
+.theme-pro .pro-header-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.theme-pro .pro-logo { width: 44px; height: 44px; border-radius: 10px; background: #FFFFFF; padding: 2px; }
+.theme-pro .pro-titles { flex: 1 1 auto; min-width: 0; }
+.theme-pro .app-title { font-family: var(--serif); font-size: 22px; font-weight: 700; letter-spacing: 0.5px; color: #FFFFFF; }
+.theme-pro .pro-subtitle { font-size: 14px; color: #D7DBF5; }
+.theme-pro .net-status { border: 1px solid rgba(255, 255, 255, 0.4); }
+
+/* ---------- Kartu & judul ---------- */
+
+.theme-pro .card {
+  background: #FFFFFF;
+  border: 1px solid var(--pro-line);
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 1px 2px rgba(28, 33, 71, 0.04);
+}
+.theme-pro .card h2,
+.theme-pro .card h3 {
+  font-family: var(--serif);
+  color: var(--pro-ink);
+  font-weight: 700;
+}
+.theme-pro .card h2 { font-size: 24px; margin-bottom: 4px; }
+.theme-pro .card h3 { font-size: 19px; margin-bottom: 6px; }
+.theme-pro .card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.theme-pro .sub-head { font-family: var(--serif); margin: 18px 0 8px; color: var(--pro-ink); }
+.theme-pro .small { color: var(--pro-muted); font-size: 13.5px; }
+.theme-pro .muted { color: var(--pro-muted); }
+.theme-pro .login-card { margin-top: 40px; border-top: 5px solid var(--pro-gold); }
+
+.theme-pro .dash-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+
+/* Pita judul ujian */
+.theme-pro .exam-banner {
+  border-left: 6px solid var(--pro-gold);
+  background: #FFFFFF;
+  border-radius: 0 14px 14px 0;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  border-top: 1px solid var(--pro-line);
+  border-right: 1px solid var(--pro-line);
+  border-bottom: 1px solid var(--pro-line);
+}
+.theme-pro .exam-banner h1 {
+  font-family: var(--serif);
+  font-size: 28px;
+  margin: 0 0 4px;
+  color: var(--pro-ink);
+}
+.theme-pro .exam-banner-info { color: var(--pro-text); font-size: 15px; }
+.theme-pro .exam-banner-meta { color: var(--pro-muted); font-size: 13px; margin-top: 4px; }
+
+/* ---------- Tombol ---------- */
+
+.theme-pro .btn {
+  font-family: var(--sans);
+  font-weight: 600;
+  border-radius: 10px;
+  min-height: 42px;
+  border: 1px solid transparent;
+}
+.theme-pro .btn-small { min-height: 34px; padding: 5px 12px; font-size: 13.5px; }
+.theme-pro .btn-primary { background: var(--pro-indigo); color: #FFFFFF; }
+.theme-pro .btn-primary:hover:not(:disabled) { background: var(--pro-indigo-2); }
+.theme-pro .btn-light { background: #FFFFFF; color: var(--pro-ink); border-color: #CBD1E3; }
+.theme-pro .btn-light:hover:not(:disabled) { background: #F2F4FB; }
+.theme-pro .btn-danger { background: var(--pro-rose); color: #FFFFFF; }
+
+/* ---------- Formulir ---------- */
+
+.theme-pro #login-form input,
+.theme-pro .toolbar select,
+.theme-pro #msg-card select,
+.theme-pro #msg-card textarea {
+  border: 1px solid #CBD1E3;
+  border-radius: 10px;
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--pro-text);
+  background: #FFFFFF;
+}
+.theme-pro #login-form label { font-weight: 600; font-size: 14px; }
+.theme-pro #login-form input:focus,
+.theme-pro .toolbar select:focus,
+.theme-pro #msg-card select:focus,
+.theme-pro #msg-card textarea:focus {
+  outline: none;
+  border-color: var(--pro-indigo-2);
+  box-shadow: 0 0 0 3px rgba(52, 60, 138, 0.18);
+}
+
+.theme-pro .toolbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; margin-top: 6px; }
+.theme-pro .field { display: flex; flex-direction: column; gap: 5px; flex: 1 1 200px; font-size: 13px; font-weight: 600; color: var(--pro-muted); }
+.theme-pro .toolbar select { min-height: 42px; padding: 8px 10px; }
+.theme-pro .toolbar .btn { flex: 0 0 auto; }
+.theme-pro .check-row { display: flex; gap: 8px; align-items: center; font-size: 14px; margin-top: 12px; color: var(--pro-text); }
+.theme-pro .check-row input { width: 18px; height: 18px; accent-color: var(--pro-indigo); }
+
+#msg-card .field { margin-top: 10px; }
+#msg-card select { min-height: 42px; padding: 8px 10px; }
+#msg-card textarea { padding: 10px 12px; resize: vertical; min-height: 84px; }
+.msg-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; gap: 10px; }
+
+/* ---------- Ringkasan berwarna ---------- */
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.stat {
+  background: #FFFFFF;
+  border: 1px solid var(--pro-line);
+  border-radius: 12px;
+  padding: 12px 14px;
+  border-top: 4px solid var(--pro-slate);
+}
+.stat-label { font-size: 13px; color: var(--pro-muted); font-weight: 600; }
+.stat-value { font-family: var(--serif); font-size: 30px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--pro-ink); }
+.stat.tone-indigo { border-top-color: var(--pro-indigo-2); }
+.stat.tone-emerald { border-top-color: var(--pro-emerald); }
+.stat.tone-emerald .stat-value { color: var(--pro-emerald); }
+.stat.tone-amber { border-top-color: var(--pro-amber); background: #FFFAEF; }
+.stat.tone-amber .stat-value { color: var(--pro-amber); }
+.stat.tone-rose { border-top-color: var(--pro-rose); }
+.stat.tone-rose .stat-value { color: var(--pro-rose); }
+.stat.tone-sky { border-top-color: var(--pro-sky); }
+.stat.tone-sky .stat-value { color: var(--pro-sky); }
+.stat.tone-slate { border-top-color: #C7CCDB; }
+
+.two-col { display: grid; grid-template-columns: 1fr; gap: 0 18px; }
+@media (min-width: 960px) {
+  .two-col { grid-template-columns: 1.4fr 1fr; }
+}
+
+/* ---------- Tabel ---------- */
+
+.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 10px; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 620px; }
+.data-table th, .data-table td { padding: 9px 10px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--pro-line); }
+.data-table th {
+  background: #EEF0F8;
+  color: var(--pro-ink);
+  font-weight: 700;
+  white-space: nowrap;
+  border-bottom: 2px solid #C9CEE4;
+}
+.data-table tbody tr:nth-child(even) td { background: #FAFBFE; }
+.data-table td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.data-table td.strong { font-weight: 700; color: var(--pro-ink); }
+.data-table tr.row-warn td { background: #FFF8E6; }
+.data-table tr.row-alert td { background: #FDEEF2; }
+.data-table tr.row-missing td { color: var(--pro-muted); }
+.data-table .wrap { min-width: 200px; }
+
+/* ---------- Lencana ---------- */
+
+.theme-pro .badge { font-weight: 700; font-size: 12px; padding: 3px 9px; border: 0; }
+.data-table .badge { white-space: nowrap; }
+.theme-pro .badge-done { background: #DDF3E8; color: #11643E; }
+.theme-pro .badge-warn { background: #FFF0D1; color: #8A5600; }
+.theme-pro .badge-bad { background: #FBE0E8; color: #9C1F45; }
+.theme-pro .badge-live { background: var(--pro-indigo-2); color: #FFFFFF; }
+.theme-pro .badge-muted { background: #ECEEF4; color: var(--pro-muted); }
+
+.vio {
+  display: inline-block;
+  min-width: 28px;
+  text-align: center;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-variant-numeric: tabular-nums;
+}
+.vio-no { background: #ECEEF4; color: var(--pro-muted); }
+.vio-yes { background: var(--pro-rose); color: #FFFFFF; cursor: help; }
+
+.bar { height: 8px; background: #E6E9F3; border-radius: 4px; overflow: hidden; min-width: 80px; margin-top: 4px; }
+.bar > span { display: block; height: 100%; background: var(--pro-sky); }
+.bar > span.bar-good { background: var(--pro-emerald); }
+.bar > span.bar-mid { background: var(--pro-amber); }
+.bar > span.bar-low { background: var(--pro-rose); }
+
+.ok-text { color: var(--pro-emerald); font-weight: 700; }
+.bad-text { color: var(--pro-rose); font-weight: 700; }
+
+.live-summary {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--pro-ink);
+  background: #EEF0F8;
+  border-radius: 10px;
+  padding: 8px 12px;
+  margin: 8px 0 10px;
+}
+
+/* ---------- Riwayat pesan ---------- */
+
+.msg-list { display: flex; flex-direction: column; gap: 10px; max-height: 420px; overflow-y: auto; }
+.msg-item { border: 1px solid var(--pro-line); border-left: 4px solid var(--pro-gold); border-radius: 10px; padding: 10px 12px; }
+.msg-item.withdrawn { border-left-color: #C7CCDB; opacity: 0.7; }
+.msg-item-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.msg-item-text { margin: 6px 0 8px; white-space: pre-wrap; word-break: break-word; }
+
+/* ---------- Pesan sistem ---------- */
+
+.theme-pro .msg { font-weight: 500; border-radius: 10px; }
+
+/* ---------- Export ---------- */
+
+.export-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+.export-grid .btn { width: 100%; }
+
+/* ---------- Panel detail ---------- */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 24, 54, 0.5);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 16px;
+  z-index: 50;
+  overflow-y: auto;
+}
+.modal-card { background: #FFFFFF; border-radius: 14px; padding: 18px; max-width: 860px; width: 100%; border-top: 5px solid var(--pro-gold); }
+
+.theme-pro .pwa-bar { border: 1px solid var(--pro-line); }
+.theme-pro .footer { color: var(--pro-muted); }
+
+/* ---------- Cetak / PDF ---------- */
+
+.print-area { display: none; }
+
+@media print {
+  @page { size: A4 landscape; margin: 12mm; }
+  body { background: #FFFFFF; }
+  body > *:not(.print-area) { display: none !important; }
+  .print-area { display: block !important; font-family: Arial, Helvetica, sans-serif; font-size: 9.5pt; color: #000000; }
+  .print-area h1 { font-family: Georgia, serif; font-size: 15pt; margin: 0 0 4px; }
+  .print-area h2 { font-family: Georgia, serif; font-size: 12pt; margin: 14px 0 6px; }
+  .print-area .meta { font-size: 9pt; margin-bottom: 6px; }
+  .print-area table { width: 100%; border-collapse: collapse; margin-bottom: 8px; }
+  .print-area th, .print-area td { border: 1px solid #555555; padding: 3px 5px; text-align: left; vertical-align: top; }
+  .print-area th { background: #E5E7EB; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .print-area td.num { text-align: right; }
+  .print-area tr { page-break-inside: avoid; }
+  .print-area thead { display: table-header-group; }
+  .print-area .page-break { page-break-before: always; }
+  .print-area .sign { margin-top: 24px; display: flex; justify-content: flex-end; page-break-inside: avoid; }
+  .print-area .sign > div { width: 260px; text-align: center; }
+}
