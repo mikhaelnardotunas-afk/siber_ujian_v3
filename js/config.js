@@ -41,5 +41,5 @@ const SIBER_CONFIG = {
   ALLOW_LOCAL_WIPE: false,
 
   // Versi aplikasi (naikkan setiap ada perubahan file)
-  CLIENT_VERSION: '3.0.1'
+  CLIENT_VERSION: '3.1.1'
 };
