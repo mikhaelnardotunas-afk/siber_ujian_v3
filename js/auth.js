@@ -132,7 +132,12 @@ const Auth = (function () {
 
     if (!navigator.onLine) return offlineLogin(username, password);
 
-    const res = await Api.call('login', { username: username, password: password });
+    // Jaringan lambat: tunggu lebih lama (90 dtk) dan coba ulang sekali bila gangguan jaringan.
+    let res = await Api.call('login', { username: username, password: password }, '', 90000);
+    if (!res.success && ['TIMEOUT', 'NETWORK_ERROR', 'BAD_RESPONSE'].indexOf(res.error.code) !== -1 && navigator.onLine) {
+      await new Promise(function (r) { setTimeout(r, 2000); });
+      res = await Api.call('login', { username: username, password: password }, '', 90000);
+    }
     if (res.success) return finishOnlineLogin(res.data, username, password);
 
     if (res.error.code === 'ACCOUNT_INACTIVE') {
@@ -146,6 +151,10 @@ const Auth = (function () {
     const off = await offlineLogin(username, password);
     if (off.success) {
       off.data.note = 'Server tidak dapat dihubungi (' + res.error.code + '). Anda masuk memakai data di perangkat.';
+    } else if (off.error && off.error.code === 'NO_LOCAL_ACCOUNT') {
+      return fail(res.error.code,
+        'Server tidak dapat dihubungi / terlalu lambat, dan akun ini belum pernah login di perangkat ini. ' +
+        'Periksa internet (coba data seluler atau Wi-Fi lain), lalu tekan Masuk lagi. Detail: ' + res.error.message);
     }
     return off;
   }

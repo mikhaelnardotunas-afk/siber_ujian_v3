@@ -135,7 +135,11 @@
     const res = await Api.call('ping', {});
     UI.setBusy(btn, false);
     refreshDebug();
-    if (res.success) UI.showMsg('ping-message', 'ok', 'Server aktif. Waktu respons ' + (Date.now() - t0) + ' ms.');
+    const ms = Date.now() - t0;
+    if (res.success && ms > 8000) {
+      UI.showMsg('ping-message', 'warn', 'Server aktif, tetapi jaringan SANGAT LAMBAT (' + (ms / 1000).toFixed(1) +
+        ' detik; normal di bawah 5 detik). Login & unduh soal bisa gagal. Coba data seluler atau Wi-Fi lain, matikan VPN/penghemat data.');
+    } else if (res.success) UI.showMsg('ping-message', 'ok', 'Server aktif. Waktu respons ' + ms + ' ms.');
     else UI.showMsg('ping-message', 'error', UI.errorText(res));
   }
 
